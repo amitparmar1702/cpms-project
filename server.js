@@ -14,7 +14,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://cpms-amit.web.app",
+    origin: ["https://cpms-amit.web.app", "http://localhost:5173"],
     methods: ["GET", "POST"]
   },
   transports: ["websocket", "polling"]
