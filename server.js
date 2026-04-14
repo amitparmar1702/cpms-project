@@ -31,15 +31,18 @@ io.on("connection", (socket) => {
   // ── Existing Interview Logic ──
   socket.on("join-room", ({ roomId }) => {
     socket.join(roomId);
-    console.log("📥 Room joined:", roomId);
+    const roomSize = io.sockets.adapter.rooms.get(roomId)?.size || 0;
+    console.log(`📥 [${roomId}] Joined. Peer count: ${roomSize}`);
     socket.to(roomId).emit("user-joined");
   });
 
   socket.on("offer", (data) => {
+    console.log(`📤 [${data.roomId}] Offer Relay Attempt`);
     socket.to(data.roomId).emit("offer", data.offer);
   });
 
   socket.on("answer", (data) => {
+    console.log(`📥 [${data.roomId}] Answer Relay Attempt`);
     socket.to(data.roomId).emit("answer", data.answer);
   });
 
